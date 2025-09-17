@@ -49,6 +49,10 @@ if (isset($_POST['login'])) {
       <div>
       <nav class="navbar navbar-expand-lg bg-primary"  data-bs-theme="dark">
         <div class="container-fluid">
+          <!-- Tombol kembali ke beranda -->
+          <a href="index.php" class="btn btn-light me-3">
+            <i class="fas fa-chevron-left"></i>
+          </a>
           <img
             src="assets/image/icon-healthier.png"
             alt="Logo"
@@ -56,7 +60,7 @@ if (isset($_POST['login'])) {
             class="d-inline-block align-text-top"
           />
           <a class="navbar-brand mx-2" href="index.php
-          ">Health Shop</a>
+          ">MedShop</a>
           <div
             class="collapse navbar-collapse justify-content-end mr-3"
             id="navbarNav"
@@ -71,7 +75,7 @@ if (isset($_POST['login'])) {
         <div class="card container text-center shadow-lg" style="max-width: 600px;">
         <div class="pt-4">
           <img src="assets/image/icon-healthier.png" alt="Logo" style="width: 50px; height: 50px">
-          <h5>Selamat datang di Health Shopr</h5>
+          <h5>Selamat datang di MedShop</h5>
       </div>
       <div>
           <form action="login.php" method="POST">

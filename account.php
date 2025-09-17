@@ -10,11 +10,11 @@ $id_user = $_SESSION['id'];
 $query = mysqli_query($conn, "SELECT * FROM pendaftar WHERE id = '$id_user'");
 $data = mysqli_fetch_assoc($query);
 
-// Proses update data
+// Proses update data akun
 if (isset($_POST['update'])) {
     $username   = $_POST['username'];
     $email      = $_POST['email'];
-    $dateofbirth        = $_POST['dateofbirth'];
+    $dateofbirth = $_POST['dateofbirth'];
     $gender     = $_POST['gender'];
     $address    = $_POST['address'];
     $city       = $_POST['city'];
@@ -23,21 +23,18 @@ if (isset($_POST['update'])) {
     $password   = $_POST['password'];
 
     if (!empty($password)) {
-        // Jika user mengisi password, hash dan update password juga
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $update = mysqli_query($conn, "UPDATE pendaftar SET 
-    username='$username', email='$email', dateofbirth='$dateofbirth', gender='$gender',
-    address='$address', city='$city', contact='$contact', paypal='$paypal',
-    assword='$hashed_password'
-     WHERE id='$id_user'");
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $update = mysqli_query($conn, "UPDATE pendaftar SET 
+            username='$username', email='$email', dateofbirth='$dateofbirth', gender='$gender',
+            address='$address', city='$city', contact='$contact', paypal='$paypal',
+            password='$hashed_password'
+            WHERE id='$id_user'");
     } else {
-        // Jika tidak mengisi password, update data tanpa mengubah password
-    $update = mysqli_query($conn, "UPDATE pendaftar SET 
-    username='$username', email='$email', dateofbirth='$dateofbirth', gender='$gender',
-    address='$address', city='$city', contact='$contact', paypal='$paypal'
-    WHERE id='$id_user'");
+        $update = mysqli_query($conn, "UPDATE pendaftar SET 
+            username='$username', email='$email', dateofbirth='$dateofbirth', gender='$gender',
+            address='$address', city='$city', contact='$contact', paypal='$paypal'
+            WHERE id='$id_user'");
     }
-
 
     if ($update) {
         echo "<script>alert('Data berhasil diperbarui!'); window.location='account.php';</script>";
@@ -46,6 +43,19 @@ if (isset($_POST['update'])) {
     }
 }
 
+// Proses hapus metode pembayaran
+if (isset($_GET['delete_pembayaran'])) {
+    $id_pembayaran = intval($_GET['delete_pembayaran']);
+    $delete = mysqli_query($conn, "DELETE FROM pembayaran WHERE id = '$id_pembayaran' AND user_id = '$id_user'");
+    if ($delete) {
+        echo "<script>alert('Metode pembayaran berhasil dihapus!'); window.location='account.php';</script>";
+    } else {
+        echo "<script>alert('Gagal menghapus metode pembayaran!');</script>";
+    }
+}
+
+// Ambil metode pembayaran user
+$metodeQuery = mysqli_query($conn, "SELECT * FROM pembayaran WHERE user_id = '$id_user'");
 ?>
 
 <!DOCTYPE html>
@@ -53,13 +63,13 @@ if (isset($_POST['update'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Shop</title>
-  <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="assets/style.css" />
+    <title>MedShop - Account</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
-    <section id="navbar">
+     <section id="navbar">
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div class="container-fluid">
         <img
@@ -67,7 +77,7 @@ if (isset($_POST['update'])) {
           alt="Logo"
           style="width: 50px; height: 50px; margin: 10px"
           class="d-inline-block align-text-top" />
-        <a class="navbar-brand mx-2" href="index.php">Health Shop</a>
+        <a class="navbar-brand mx-2" href="index.php">MedShop</a>
 
         <button
           class="navbar-toggler"
@@ -93,28 +103,28 @@ if (isset($_POST['update'])) {
             <a class="nav-link" href="cart.php?p=0">Keranjang</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="https://wa.me/+6281240277417">Kontak Kami</a>
+              <a class="nav-link" href="kontak.php">Kontak Kami</a>
             </li>
           </ul>
           <ul class="navbar-nav mx-4">
             <?php
             if (!isset($_SESSION['log'])) {
               echo '
-					<li><a href="register.php" class="btn btn-light mx-2"> Register</a></li>
-					<li><a href="login.php" class="btn btn-light">Login</a></li>
-					';
+                    <li><a href="register.php" class="btn btn-light mx-2"> Register</a></li>
+                    <li><a href="login.php" class="btn btn-light">Login</a></li>
+                    ';
             } else {
 
               if ($_SESSION['role'] == 'member') {
                 echo '
                     <li><a href="account.php" class="btn btn-light mx-2">Account</a></li>
-					<li><a href="logout.php" class="btn btn-light mb-1">Logout</a></li>
-					';
+                    <li><a href="logout.php" class="btn btn-light mb-1">Logout</a></li>
+                    ';
               } else {
                 echo '
-					<li><a href="admin" class="btn btn-light mb-1 mx-3">Admin</a></li>
-					<li><a href="logout.php" class="btn btn-light mb-1">Logout</a></li>
-					';
+                    <li><a href="admin" class="btn btn-light mb-1 mx-3">Admin</a></li>
+                    <li><a href="logout.php" class="btn btn-light mb-1">Logout</a></li>
+                    ';
               };
             }
             ?>
@@ -124,71 +134,115 @@ if (isset($_POST['update'])) {
     </nav>
   </section>
 
-  <div class="container mt-5">
-    <h3>Edit Akun</h3>
-    <form method="POST">
-        <div class="mb-3">
-            <label>Username:</label>
-            <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($data['username']) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Password:</label>
-            <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengubah">
-        </div>
-
-        <div class="mb-3">
-            <label>E-mail:</label>
-            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($data['email']) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Date of birth:</label>
-            <input type="date" name="dateofbirth" class="form-control" value="<?= htmlspecialchars($data['dateofbirth']) ?>">
-        </div>
-
-        <div class="mb-3">
-            <label>Gender:</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" value="Male" <?= ($data['gender'] == 'Male') ? 'checked' : '' ?>>
-                <label class="form-check-label">Male</label>
+    <!-- Edit Akun -->
+    <div class="container mt-5">
+        <h3>Edit Akun</h3>
+        <form method="POST">
+            <div class="mb-3">
+                <label>Username:</label>
+                <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($data['username']) ?>" required>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" value="Female" <?= ($data['gender'] == 'Female') ? 'checked' : '' ?>>
-                <label class="form-check-label">Female</label>
+
+            <div class="mb-3">
+                <label>Password:</label>
+                <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengubah">
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label>Address:</label>
-            <input type="text" name="address" class="form-control" value="<?= htmlspecialchars($data['address']) ?>">
-        </div>
+            <div class="mb-3">
+                <label>E-mail:</label>
+                <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($data['email']) ?>" required>
+            </div>
 
-        <div class="mb-3">
-            <label>City:</label>
-            <input type="text" name="city" class="form-control" value="<?= htmlspecialchars($data['city'])?>">
-        </div>
+            <div class="mb-3">
+                <label>Date of birth:</label>
+                <input type="date" name="dateofbirth" class="form-control" value="<?= htmlspecialchars($data['dateofbirth']) ?>">
+            </div>
 
-        <div class="mb-3">
-            <label>Contact:</label>
-            <input type="text" name="contact" class="form-control" value="<?= htmlspecialchars($data['contact']) ?>">
-        </div>
+            <div class="mb-3">
+                <label>Gender:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" value="Male" <?= ($data['gender'] == 'Male') ? 'checked' : '' ?>>
+                    <label class="form-check-label">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" value="Female" <?= ($data['gender'] == 'Female') ? 'checked' : '' ?>>
+                    <label class="form-check-label">Female</label>
+                </div>
+            </div>
 
-        <div class="mb-3">
-            <label>Paypal ID:</label>
-            <input type="text" name="paypal" class="form-control" value="<?= htmlspecialchars($data['paypal']) ?>">
-        </div>
+            <div class="mb-3">
+                <label>Address:</label>
+                <input type="text" name="address" class="form-control" value="<?= htmlspecialchars($data['address']) ?>">
+            </div>
 
-        <button type="submit" name="update" class="btn btn-success">Simpan Perubahan</button>
-        <a href="account.php" class="btn btn-secondary">Batal</a>
-    </form>
-</div>
+            <div class="mb-3">
+                <label>City:</label>
+                <input type="text" name="city" class="form-control" value="<?= htmlspecialchars($data['city'])?>">
+            </div>
 
+            <div class="mb-3">
+                <label>Contact:</label>
+                <input type="text" name="contact" class="form-control" value="<?= htmlspecialchars($data['contact']) ?>">
+            </div>
+
+            <div class="mb-3">
+                <label>Paypal ID:</label>
+                <input type="text" name="paypal" class="form-control" value="<?= htmlspecialchars($data['paypal']) ?>">
+            </div>
+
+            <button type="submit" name="update" class="btn btn-success">Simpan Perubahan</button>
+            <a href="account.php" class="btn btn-secondary">Batal</a>
+        </form>
+    </div>
+
+         <!-- Metode Pembayaran -->
+<div class="container mt-5">
+    <h4>Metode Pembayaran Saya</h4>
+    <a href="tambah_pembayaran.php" class="btn btn-primary mb-3">+ Tambah Metode Pembayaran</a>
     
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Metode</th>
+                    <th>Nomor / No HP</th>
+                    <th>Atas Nama</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($metodeQuery && mysqli_num_rows($metodeQuery) > 0) {
+                    $no = 1;
+                    while ($m = mysqli_fetch_assoc($metodeQuery)) {
+                        ?>
+                        <tr>
+                            <td><?= $no++; ?></td>
+                            <td><?= htmlspecialchars($m['metode']); ?></td>
+                            <td><?= htmlspecialchars($m['nomor']); ?></td>
+                            <td><?= htmlspecialchars($m['atas_nama']); ?></td>
+                            <td class="text-center">
+                                <a href="account.php?delete_pembayaran=<?= $m['id']; ?>"
+                                   onclick="return confirm('Yakin ingin menghapus metode ini?')"
+                                   class="btn btn-danger btn-sm">
+                                   <i class="fa fa-trash"></i> Hapus
+                                </a>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                } else {
+                    echo "<tr><td colspan='5' class='text-center'>Belum ada metode pembayaran</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+    </div>
 
     <?php include('footer.php') ?>
-
-
-  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

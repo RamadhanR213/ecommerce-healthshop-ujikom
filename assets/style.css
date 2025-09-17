@@ -53,15 +53,6 @@
     text-shadow: black 1px 1px;
     font-family: sans-serif ;
 }
-.jumbotron-bg {
-    background-image: url("../assets/image/doctor.jpg");
-    height: 600px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
-}
 
 .harga{
     font-size: 13pt;
@@ -82,5 +73,14 @@
 
 .card-body{
     background-color: rgb(237, 247, 250);
+}
+
+.box-input {
+    margin-top: 15px;
+    border-radius: 30px; /* Membuat sudut melengkung dengan radius 30px */
+    padding: 8px; /* Menambahkan padding agar lebih nyaman */
+    border: 1px solid #ced4da; /* Warna border */
+    width: 100%; /* Mengatur lebar input agar responsif */
+    box-sizing: border-box; /* Memastikan padding tidak memengaruhi ukuran total */
 }
 

@@ -17,7 +17,7 @@ $produk = mysqli_fetch_array($queryProduk);
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Health Shop</title>
+    <title>MedShop</title>
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/style.css" />
@@ -32,7 +32,7 @@ $produk = mysqli_fetch_array($queryProduk);
                     alt="Logo"
                     style="width: 50px; height: 50px; margin: 10px"
                     class="d-inline-block align-text-top" />
-                <a class="navbar-brand mx-2" href="index.php">Health Shop</a>
+                <a class="navbar-brand mx-2" href="index.php">MedShop</a>
 
                 <button
                     class="navbar-toggler"
@@ -58,7 +58,7 @@ $produk = mysqli_fetch_array($queryProduk);
                             <a class="nav-link" href="cart.php?p=0">Keranjang</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="https://wa.me/+6281240277417">Kontak Kami</a>
+                        <a class="nav-link" href="kontak.php">Kontak Kami</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav mx-4">

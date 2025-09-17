@@ -73,13 +73,16 @@ if(isset($_POST['adduser']))
       <div>
       <nav class="navbar navbar-expand-lg bg-primary"  data-bs-theme="dark">
         <div class="container-fluid">
+          <a href="index.php" class="btn btn-light me-3">
+            <i class="fas fa-chevron-left"></i>
+          </a>
           <img
             src="assets/image/icon-healthier.png"
             alt="Logo"
             style="width: 50px; height: 50px; margin: 10px"
             class="d-inline-block align-text-top"
           />
-          <a class="navbar-brand mx-2" href="index.php">Health Shop</a>
+          <a class="navbar-brand mx-2" href="index.php">MedShop</a>
           <div
             class="collapse navbar-collapse justify-content-end mr-3"
             id="navbarNav"
@@ -88,67 +91,50 @@ if(isset($_POST['adduser']))
         </div>
       </nav>
       </div>
-     
     </section>
 
-    <section id="form">
-      <div class="d-flex justify-content-center align-items-center" style="height: 90vh;">
-      <div class="card container text-center shadow-lg" style="max-width: 600px;">
+
+<section id="form">
+  <div class="d-flex justify-content-center align-items-center" style="height: 90vh;">
+    <div class="card container text-left shadow-lg" style="max-width: 600px;">
       <div class="p-4 bg-light rounded">
-        <div><h6><b>FORM REGISTRASI</b></h6></div>
+        <h6 class="text-center mb-4"><b>FORM REGISTRASI</b></h6>
         <div>
           <form action="register.php" method="POST" onsubmit="return validateForm()">
-            <div>
-              Username :
+            <div class="form-group">
+              <label class="form-label">Username :</label>
               <input class="box-input" type="text" name="username" required />
             </div>
-            <div>
-              Password :
+            <div class="form-group">
+              <label class="form-label">Password :</label>
               <input class="box-input" type="password" name="password" required />
             </div>
-            <div>
-              Confirm Password :
-              <input
-                class="box-input"
-                type="password"
-                name="re-password"
-                required
-              />
+            <div class="form-group">
+              <label class="form-label">Confirm Password :</label>
+              <input class="box-input" type="password" name="re-password" required />
             </div>
-            <div>
-              E-mail :
+            <div class="form-group">
+              <label class="form-label">E-mail :</label>
               <input class="box-input" type="email" name="email" required />
             </div>
-            <div>
-              Date of birth :
+            <div class="form-group">
+              <label class="form-label">Date of birth :</label>
               <input class="box-input" type="date" name="dateofbirth" required />
             </div>
-            <div>
-              Gender :
-              <input
-                type="radio"
-                id="male"
-                name="gender"
-                value="male"
-                style="margin-left: 12px; margin-top: 15px"
-                required
-              />
+            <div class="form-group">
+              <label class="form-label">Gender :</label>
+              <input type="radio" id="male" name="gender" value="male" required />
               <label for="male">Male</label>
               <input type="radio" id="female" name="gender" value="female" />
               <label for="female">Female</label>
             </div>
-            <div>
-              Address :
+            <div class="form-group">
+              <label class="form-label">Address :</label>
               <input class="box-input" type="text" name="address" required />
             </div>
-            <div>
-              City :
-              <select
-                id="city"
-                name="city"
-                style="margin-left: 10px; margin-top: 15px"
-                required
-              >
+            <div class="form-group">
+              <label class="form-label">City :</label>
+              <select id="city" name="city" required>
                 <option value="Surabaya">Surabaya</option>
                 <option value="Kediri">Kediri</option>
                 <option value="Sidoarjo">Sidoarjo</option>
@@ -157,41 +143,52 @@ if(isset($_POST['adduser']))
                 <option value="Gresik">Gresik</option>
               </select>
             </div>
-            <div>
-              Contact :
+            <div class="form-group">
+              <label class="form-label">Contact :</label>
               <input class="box-input" type="number" name="contact" required />
             </div>
-            <div>
-              Paypal ID :
+            <div class="form-group">
+              <label class="form-label">Paypal ID :</label>
               <input class="box-input" type="text" name="paypal" required />
             </div>
             <div style="margin-top: 15px">
-              <a style="display:flex;justify-content: center;;">
-                <button
-                  style="margin-right: 10px"
-                  type="submit"
-                  name="adduser"
-                  class="btn btn-primary"
-                  href="index.php"
-                >
+              <a style="display:flex;justify-content: center;">
+                <button style="margin-right: 10px" type="submit" name="adduser" class="btn btn-primary">
                   Submit
                 </button>
-                <button
-                  type="button"
-                  onclick="clearForm()"
-                  class="btn btn-primary"
-                >
+                <button type="button" onclick="clearForm()" class="btn btn-primary">
                   Clear
                 </button>
               </a>
+              <p class="text-center mt-3">
+                  Sudah memiliki akun? <a href="login.php">Silakan login</a>
+              </p>
             </div>
           </form>
         </div>
       </div>
-      </div>
-    </section>
-    
+    </div>
+  </div>
+</section>
 
+<style>
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .form-label {
+    width: 150px; /* Adjust width as needed */
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  .box-input {
+    flex: 1;
+  }
+</style>
+    
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

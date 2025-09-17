@@ -22,7 +22,7 @@ if (isset($_GET['kategori'])) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Health Shop</title>
+  <title>MedShop</title>
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="assets/style.css" />
@@ -37,7 +37,7 @@ if (isset($_GET['kategori'])) {
           alt="Logo"
           style="width: 50px; height: 50px; margin: 10px"
           class="d-inline-block align-text-top" />
-        <a class="navbar-brand mx-2" href="index.php">Health Shop</a>
+        <a class="navbar-brand mx-2" href="index.php">MedShop</a>
 
         <button
           class="navbar-toggler"
@@ -63,7 +63,7 @@ if (isset($_GET['kategori'])) {
               <a class="nav-link" href="cart.php?p=0">Keranjang</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://wa.me/+6281240277417">Kontak Kami</a>
+              <a class="nav-link" href="kontak.php">Kontak Kami</a>
             </li>
           </ul>
           <ul class="navbar-nav mx-4">
@@ -77,7 +77,8 @@ if (isset($_GET['kategori'])) {
 
               if ($_SESSION['role'] == 'member') {
                 echo '
-					<li><a href="logout.php" class="btn btn-light mb-1">Logout</a></li>
+                <li><a href="account.php" class="btn btn-light mx-2">Account</a></li>
+					      <li><a href="logout.php" class="btn btn-light mb-1">Logout</a></li>
 					';
               } else {
                 echo '
@@ -93,42 +94,42 @@ if (isset($_GET['kategori'])) {
     </nav>
   </section>
 
-  <section id="produk">
-    <div class="container-fluid py-5">
-      <div class="container text-center">
-        <div class="mb-5">
-          <h3>Produk</h3>
-        </div>
+<section id="produk">
+  <div class="container-fluid py-5">
+    <div class="container text-center">
+      <div class="mb-5">
+        <h3>Produk</h3>
+      </div>
 
+      <div class="row">
+        <div class="d-flex dropdown mb-3">
+          <a class="btn btn-primary dropdown-toggle" href="#" role="button" name="kategori" data-bs-toggle="dropdown" aria-expanded="false">
+            Kategori Produk
+          </a>
 
-        <div class="row ">
-          <div class="d-flex dropdown mb-3">
-            <a class="btn btn-primary dropdown-toggle" href="#" role="button" name="kategori" data-bs-toggle="dropdown" aria-expanded="false">
-              Kategori Produk
-            </a>
-
-            <ul class="dropdown-menu">
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="belanja.php">
+                Semua Kategori
+              </a>
+            </li>
+            <?php
+            while ($data = mysqli_fetch_array($querykategori)) {
+            ?>
               <li>
-                <a class="dropdown-item" href="belanja.php">
-                  Semua Kategori
+                <a class="dropdown-item" href="belanja.php?kategori=<?php echo $data['id_kategori'] ?>">
+                  <?php echo $data['nama_kategori'] ?>
                 </a>
               </li>
-              <?php
-              while ($data = mysqli_fetch_array($querykategori)) {
-              ?>
-                <li>
-                  <a class="dropdown-item" href="belanja.php?kategori=<?php echo $data['id_kategori'] ?>">
-                    <?php echo $data['nama_kategori'] ?>
-                  </a>
-                </li>
-              <?php } ?>
+            <?php } ?>
+          </ul>
+        </div>
 
-            </ul>
-          </div>   
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
           <?php
           while ($data = mysqli_fetch_array($queryListProduk)) {
           ?>
-            <div class="col-sm-6 col-md-4 mb-3">
+            <div class="col">
               <div class="card h-100">
                 <div class="cardimg">
                   <img src="assets/image/<?php echo $data['foto'] ?>" class="card-img-top" alt="...">
@@ -148,22 +149,16 @@ if (isset($_GET['kategori'])) {
                     <?php
                     }
                     ?>
-
                   </div>
                 </div>
               </div>
             </div>
           <?php } ?>
-
-
         </div>
-
-
-
-
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <?php require 'footer.php' ?>
 
